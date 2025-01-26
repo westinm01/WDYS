@@ -8,13 +8,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
 #if UNITY_EDITOR
     using UnityEditor;
     using System.Net;
 #endif
 
-public class FirstPersonController : MonoBehaviour
+public class FirstPersonController : NetworkBehaviour
 {
     private Rigidbody rb;
 
@@ -130,6 +131,13 @@ public class FirstPersonController : MonoBehaviour
     private float timer = 0;
 
     #endregion
+
+    public override void OnNetworkSpawn(){
+        if(!IsOwner){
+            enabled = false;
+            return;
+        }
+    }
 
     private void Awake()
     {
