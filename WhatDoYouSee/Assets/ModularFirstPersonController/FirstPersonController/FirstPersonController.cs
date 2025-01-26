@@ -137,6 +137,8 @@ public class FirstPersonController : NetworkBehaviour
             enabled = false;
             return;
         }
+        //set transform to 0,2,0
+        transform.position = new Vector3(0, 2, 0);
     }
 
     private void Awake()
