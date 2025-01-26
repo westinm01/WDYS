@@ -10,14 +10,16 @@ public class GameManager : NetworkBehaviour
     public float timeLimit = 180f;
     
     private float timeRemaining;
-    private uint timeRemainingInt;
+    private NetworkVariable<uint> timeRemainingInt = new NetworkVariable<uint>(default, NetworkVariableReadPermission.Everyone);
     private uint lastTimeRemainingInt;
     private bool serverGameManager = false;
 
 
     //gameobject array for players of size 2
     public List<GameObject> players = new List<GameObject>(2);
-        public List<TMPro.TextMeshProUGUI> timerTexts = new List<TMPro.TextMeshProUGUI>(2);
+    //public List<TMPro.TextMeshProUGUI> timerTexts = new List<TMPro.TextMeshProUGUI>(2);
+    public Canvas c;
+    private TMPro.TextMeshProUGUI timerText;
 
     public override void OnNetworkSpawn()
     {
@@ -29,12 +31,12 @@ public class GameManager : NetworkBehaviour
         
         serverGameManager = true;
         timeRemaining = timeLimit;
-        timeRemainingInt = (uint)timeRemaining;
-        lastTimeRemainingInt = timeRemainingInt;
+        timeRemainingInt.Value = (uint)timeRemaining;
+        lastTimeRemainingInt = timeRemainingInt.Value;
         NetworkManager.Singleton.OnClientConnectedCallback += ClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback += ClientDisconnected;
         
-        
+        timerText = c.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
         
     }
     
@@ -56,38 +58,40 @@ public class GameManager : NetworkBehaviour
             return;
         }
         timeRemaining -= Time.deltaTime;
-        timeRemainingInt = (uint)timeRemaining;
-        if(timeRemainingInt != lastTimeRemainingInt)
+        timeRemainingInt.Value = (uint)timeRemaining;
+        if(timeRemainingInt.Value != lastTimeRemainingInt)
         {
-            lastTimeRemainingInt = timeRemainingInt;
+            lastTimeRemainingInt = timeRemainingInt.Value;
             //send message to clients
-            UpdateCanvasTime(timeRemainingInt);
+            UpdateCanvasTime(timeRemainingInt.Value);
         }
 
     }
 
-    void UpdateCanvasTime(uint newTime){
+    void UpdateCanvasTime(uint timeVal){
         //find players and focus on their canvas object. Locate the time text and update it.
-        string timeString = newTime.ToString();
-        foreach(TMPro.TextMeshProUGUI text in timerTexts){
-            text.text = timeString;
-        }
+        UpdateCanvasTimeClientRPC(timeVal);
         
+    }
+
+    [ClientRpc]
+    private void UpdateCanvasTimeClientRPC(uint timeVal){
+        if(timerText == null){
+            timerText = c.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
+        }
+        string timeString = timeVal.ToString();
+        timerText.text = timeString;
     }
 
     private void ClientConnected(ulong u){
         players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
-        foreach(GameObject player in players){
-            timerTexts.Add(player.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>());
-        }
+        
     }
 
     private async void ClientDisconnected(ulong u){
         await Task.Yield();
         players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
-        foreach(GameObject player in players){
-            timerTexts.Add(player.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>());
-        }
+        
     }
 
 
