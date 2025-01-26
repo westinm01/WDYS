@@ -6,8 +6,10 @@ using Unity.Netcode;
 public class PlayerAssigner : NetworkBehaviour
 {
     public bool isCart = false;
+    private GameManager gm;
     public override void  OnNetworkSpawn()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         AssignSelf();
     }
 
@@ -23,21 +25,31 @@ public class PlayerAssigner : NetworkBehaviour
             gameObject.GetComponent<CapsuleCollider>().enabled = false;
             isCart = true;
             DisableByTag(gameObject, "Flash");
+            
+            gm.players.Add(gameObject);
         }
         else{
             DisableByTag(gameObject, "Cart");
+            gm.players.Add(gameObject);
         }
     }
 
     private void DisableByTag(GameObject g, string tag){
         //recursively go through children and disable by tag
-        if(g.tag == tag){
+        /*if(g.tag == tag){
             g.SetActive(false);
         }
         else{
             foreach(Transform child in g.transform){
                 DisableByTag(child.gameObject, tag);
             }
+        }*/
+
+        //find all objects with tag tag
+        //disable them
+        GameObject[] objs = GameObject.FindGameObjectsWithTag(tag);
+        foreach(GameObject obj in objs){
+            obj.SetActive(false);
         }
         
     }
