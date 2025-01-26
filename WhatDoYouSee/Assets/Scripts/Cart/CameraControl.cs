@@ -9,7 +9,7 @@ public class CameraControl : MonoBehaviour
     public float maxZoom = 60f;  // Maximum field of view
 
     private Camera cam;
-    CreateCart c;
+    PlayerAssigner pa;
 
     public float sensitivity = 100f; // Mouse sensitivity
     public bool lockCursor = true;   // Option to lock the cursor
@@ -23,7 +23,7 @@ public class CameraControl : MonoBehaviour
     {
         // Get the Camera component
         cam = gameObject.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Camera>();
-        c = gameObject.GetComponent<CreateCart>();
+        pa = gameObject.GetComponent<PlayerAssigner>();
         originalPosition = transform.position;
         originalRotation = transform.eulerAngles;
 
@@ -32,7 +32,7 @@ public class CameraControl : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
-        if(c.isCart)
+        if(pa.isCart)
         {
            //get culling mask and deselect layer 3
             cam.cullingMask = ~(1 << 3); //might not even be necessary...
@@ -44,7 +44,7 @@ public class CameraControl : MonoBehaviour
     void Update()
     {
         // Get scroll wheel input
-        if(c.isCart)
+        if(pa.isCart)
         { 
             float scrollInput = Input.GetAxis("Mouse ScrollWheel");
 
@@ -69,8 +69,35 @@ public class CameraControl : MonoBehaviour
                 Vector3 rotate = new Vector3(mouseY, mouseX, 0f);
                 transform.eulerAngles -= rotate;
             }
-        }
 
+            //checkif the player presses the R key
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                ResetCamera();
+            }
+        }
+    }
+
+    //create a function, ResetCamera, that interpolates the camera back to its original position and rotation
+    public void ResetCamera()
+    {
+        StartCoroutine(ResetCameraCoroutine());
         
     }
+
+    IEnumerator ResetCameraCoroutine()
+    {
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, originalPosition, t);
+            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, originalRotation, t);
+            yield return null;
+        }
+    }
 }
+
+
+
+
