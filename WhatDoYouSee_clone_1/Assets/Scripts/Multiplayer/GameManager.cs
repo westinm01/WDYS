@@ -40,13 +40,6 @@ public class GameManager : NetworkBehaviour
         
     }
     
-
-    void Start()
-    {
-        
-    }
-
-    
     void Update()
     {
         if(!serverGameManager)
@@ -59,11 +52,15 @@ public class GameManager : NetworkBehaviour
         }
         timeRemaining -= Time.deltaTime;
         timeRemainingInt.Value = (uint)timeRemaining;
-        if(timeRemainingInt.Value != lastTimeRemainingInt)
+        if(timeRemainingInt.Value != lastTimeRemainingInt && timeRemaining >= 0)
         {
             lastTimeRemainingInt = timeRemainingInt.Value;
             //send message to clients
             UpdateCanvasTime(timeRemainingInt.Value);
+        }
+        if(timeRemaining <= 0)
+        {
+            ActivateEndClientRPC(false);
         }
 
     }
@@ -92,6 +89,18 @@ public class GameManager : NetworkBehaviour
         await Task.Yield();
         players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
         
+    }
+
+    [ClientRpc]
+    void ActivateEndClientRPC(bool win){
+        if(win){
+            //display win message
+            c.GetComponent<CanvasManager>().ShowWin();
+        }
+        else{
+            //display lose message
+            c.GetComponent<CanvasManager>().ShowLose();
+        }
     }
 
 
