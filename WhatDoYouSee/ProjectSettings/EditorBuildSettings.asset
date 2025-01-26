@@ -11,5 +11,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Testing/MultiplayerSpawn.unity
     guid: 56ed7d16a53325e47bc668f08dbbf1db
+  - enabled: 1
+    path: Assets/Scenes/emptyMap.unity
+    guid: 287a7f955f2e8054f99d112549a82333
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
