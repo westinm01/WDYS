@@ -6,11 +6,14 @@ TagManager:
   tags:
   - CartPoint
   - innerWall
+  - Cart
+  - Flash
+  - GameManager
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ceiling
   - Water
   - UI
   - 
