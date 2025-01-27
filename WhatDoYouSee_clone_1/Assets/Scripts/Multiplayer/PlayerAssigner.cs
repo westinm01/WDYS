@@ -31,6 +31,8 @@ public class PlayerAssigner : NetworkBehaviour
         else{
             DisableByTag(gameObject, "Cart");
             gm.players.Add(gameObject);
+
+            transform.position = new Vector3(85, 0, -55);
         }
     }
 

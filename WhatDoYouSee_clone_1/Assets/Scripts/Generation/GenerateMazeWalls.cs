@@ -1,25 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class GenerateMazeWalls : MonoBehaviour
+public class GenerateMazeWalls : NetworkBehaviour
 {
     public int width, height;
     public int numCells;
     private bool[,] visited;
+    public GameManager gm;
+    
 
     // Constants for cell spacing and starting position
     private const float startX = 85f, startZ = -65f, cellSpacing = 10f;
 
-    void Start()
+    public override void OnNetworkSpawn()
     {
+        if(!IsServer)
+        {
+            enabled = false;
+            return;
+        }
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         print("Starting maze script!");
         StartCoroutine(GenerateMazeCoroutine());
     }
 
     IEnumerator GenerateMazeCoroutine()
     {
-        int debugCounter = 15000; // no infinite loops
+        while(gm.players.Count < 2){
+            yield return null;
+        }
+        int debugCounter = 20000; // no infinite loops
 
         visited = new bool[width, height];  // Initialize grid
         print("Generating maze with " + width + "x" + height + " cells");
@@ -131,23 +143,27 @@ public class GenerateMazeWalls : MonoBehaviour
             rayStart2 = new Vector3(worldi_x, 2.5f, worldi_z + 0.5f);
         }
 
-        RaycastHit hit;
-        if (Physics.Raycast(rayStart1, direction, out hit, cellSpacing))
-        {
-            if (hit.collider.CompareTag("innerWall"))
-            {
-                Destroy(hit.collider.gameObject);
-            }
-        }
-
-        if (Physics.Raycast(rayStart2, direction, out hit, cellSpacing))
-        {
-            if (hit.collider.CompareTag("innerWall"))
-            {
-                Destroy(hit.collider.gameObject);
-            }
-        }
+        
+        
+        DestroyWallClientRPC(rayStart1, direction);
+        DestroyWallClientRPC(rayStart2, direction);
+        //exception handling maybe
 
         //print($"Destroyed wall between ({i.x}, {i.y}) and ({j.x}, {j.y})");
+    }
+
+    [ClientRpc]
+    void DestroyWallClientRPC(Vector3 rayStart, Vector3 direction){
+
+        RaycastHit hit;
+        if (Physics.Raycast(rayStart, direction, out hit, cellSpacing))
+        {
+            if (hit.collider.CompareTag("innerWall"))
+            {
+                Destroy(hit.collider.gameObject);
+            }
+        }
+
+
     }
 }
