@@ -10,16 +10,16 @@ public class NotifyReset : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerTransform = gameObject.transform.parent;
+        /*playerTransform = gameObject.transform.parent.parent;
         resetPanel = gameObject.transform.GetChild(0).gameObject;
-        resetPanel.SetActive(false);
+        resetPanel.SetActive(false);*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        if((resetOn == false) && (playerTransform.position.y < 50  )){ //|| playerTransform.rotation != Quaternion.Euler(90,0,0)
+        /*
+        if((resetOn == false) && (playerTransform.position.y < 20  )){ //|| playerTransform.rotation != Quaternion.Euler(90,0,0)
             ShowReset();
             resetOn = true;
         }
@@ -27,7 +27,7 @@ public class NotifyReset : MonoBehaviour
         {
             resetOn = false;
             resetPanel.SetActive(false);
-        }
+        }*/
     }
 
     void ShowReset(){

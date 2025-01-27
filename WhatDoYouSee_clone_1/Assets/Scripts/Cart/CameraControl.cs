@@ -81,7 +81,9 @@ public class CameraControl : MonoBehaviour
     //create a function, ResetCamera, that interpolates the camera back to its original position and rotation
     public void ResetCamera()
     {
-        StartCoroutine(ResetCameraCoroutine());
+        if(pa.isCart){
+            StartCoroutine(ResetCameraCoroutine());
+        }
         
     }
 
