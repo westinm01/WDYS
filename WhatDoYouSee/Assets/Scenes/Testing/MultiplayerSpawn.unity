@@ -1080,6 +1080,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4659351004346869948, guid: ee021dc5fe9e7574f81ae292041f3437, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659351004346869948, guid: ee021dc5fe9e7574f81ae292041f3437, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659351004346869948, guid: ee021dc5fe9e7574f81ae292041f3437, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659351004346869948, guid: ee021dc5fe9e7574f81ae292041f3437, type: 3}
+      propertyPath: m_Color.r
+      value: 0.735849
+      objectReference: {fileID: 0}
     - target: {fileID: 4771604639640055492, guid: ee021dc5fe9e7574f81ae292041f3437, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -1162,6 +1178,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7256596316223277751, guid: ee021dc5fe9e7574f81ae292041f3437, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8158349856347542235, guid: ee021dc5fe9e7574f81ae292041f3437, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 19f739503dae1fa4faeba38fb142eeef, type: 2}
+    - target: {fileID: 8158349856347542235, guid: ee021dc5fe9e7574f81ae292041f3437, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -948878438687606035, guid: 19f739503dae1fa4faeba38fb142eeef, type: 2}
+    - target: {fileID: 8158349856347542235, guid: ee021dc5fe9e7574f81ae292041f3437, type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
