@@ -10,9 +10,11 @@ public class GenerateMazeWalls : NetworkBehaviour
     private bool[,] visited;
     public GameManager gm;
     
+    
 
     // Constants for cell spacing and starting position
     private const float startX = 85f, startZ = -65f, cellSpacing = 10f;
+
 
     public override void OnNetworkSpawn()
     {
@@ -31,6 +33,43 @@ public class GenerateMazeWalls : NetworkBehaviour
         while(gm.players.Count < 2){
             yield return null;
         }
+
+
+        //pick a random number 0 to 4
+        int randomSide = Random.Range(0, 4);
+
+        if(randomSide % 2 == 1){
+            //left or right
+            int randomCell = Random.Range(0, height);
+            
+            if(randomSide == 1){
+                //left
+                Debug.Log("Destroying wall on left " + randomCell);
+                DestroyWall(new Vector2Int(0, randomCell), new Vector2Int(-1, randomCell), true);
+            }
+            else{
+                //right
+                Debug.Log("Destroying wall on right " + randomCell);
+                DestroyWall(new Vector2Int(width - 1, randomCell), new Vector2Int(width, randomCell), true);
+            }
+        }
+        else{
+            //top or bottom
+            int randomCell = Random.Range(0, width);
+            if(randomSide == 0){
+                //top
+                Debug.Log("Destroying wall on top " + randomCell);
+                DestroyWall(new Vector2Int(randomCell, 0), new Vector2Int(randomCell, -1), true);
+            }
+            else{
+                //bottom
+                Debug.Log("Destroying wall on bottom " + randomCell);
+                DestroyWall(new Vector2Int(randomCell, height - 1), new Vector2Int(randomCell, height), true);
+            }
+        }
+
+
+
         int debugCounter = 20000; // no infinite loops
 
         visited = new bool[width, height];  // Initialize grid
@@ -102,12 +141,14 @@ public class GenerateMazeWalls : NetworkBehaviour
             for (int i = 0; i < currPath.Count - 1; i++)
             {
                 DestroyWall(currPath[i], currPath[i + 1]);
-                yield return new WaitForSeconds(0.1f); // Pause for visibility
+                yield return new WaitForSeconds(0.035f); // Pause for visibility
             }
 
             //print("TOTAL Path length: " + path.Count);
             debugCounter--;
         }
+
+        
     }
 
     Vector2Int GetRandomNeighbor(Vector2Int node)
@@ -121,7 +162,7 @@ public class GenerateMazeWalls : NetworkBehaviour
         return neighbors.Count > 0 ? neighbors[Random.Range(0, neighbors.Count)] : node;
     }
 
-    void DestroyWall(Vector2Int i, Vector2Int j)
+    void DestroyWall(Vector2Int i, Vector2Int j, bool isExit = false)
     {
         float worldi_x = startX - i.x * cellSpacing;
         float worldi_z = startZ + i.y * cellSpacing;
@@ -134,31 +175,31 @@ public class GenerateMazeWalls : NetworkBehaviour
 
         if (worldj_x == worldi_x)
         {
-            rayStart1 = new Vector3(worldi_x - 0.5f, 2.5f, worldi_z);
-            rayStart2 = new Vector3(worldi_x + 0.5f, 2.5f, worldi_z);
+            rayStart1 = new Vector3(worldi_x - 0.7f, 2.5f, worldi_z);
+            rayStart2 = new Vector3(worldi_x + 0.7f, 2.5f, worldi_z);
         }
         else
         {
-            rayStart1 = new Vector3(worldi_x, 2.5f, worldi_z - 0.5f);
-            rayStart2 = new Vector3(worldi_x, 2.5f, worldi_z + 0.5f);
+            rayStart1 = new Vector3(worldi_x, 2.5f, worldi_z - 0.7f);
+            rayStart2 = new Vector3(worldi_x, 2.5f, worldi_z + 0.7f);
         }
 
         
         
-        DestroyWallClientRPC(rayStart1, direction);
-        DestroyWallClientRPC(rayStart2, direction);
+        DestroyWallClientRPC(rayStart1, direction, isExit);
+        DestroyWallClientRPC(rayStart2, direction, isExit);
         //exception handling maybe
 
         //print($"Destroyed wall between ({i.x}, {i.y}) and ({j.x}, {j.y})");
     }
 
     [ClientRpc]
-    void DestroyWallClientRPC(Vector3 rayStart, Vector3 direction){
+    void DestroyWallClientRPC(Vector3 rayStart, Vector3 direction, bool isExit = false){
 
         RaycastHit hit;
         if (Physics.Raycast(rayStart, direction, out hit, cellSpacing))
         {
-            if (hit.collider.CompareTag("innerWall"))
+            if (hit.collider.CompareTag("innerWall") || isExit == true)
             {
                 Destroy(hit.collider.gameObject);
             }
