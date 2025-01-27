@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - CartPoint
+  - innerWall
   layers:
   - Default
   - TransparentFX
