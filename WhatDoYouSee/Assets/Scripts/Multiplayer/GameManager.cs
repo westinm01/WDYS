@@ -12,9 +12,10 @@ public class GameManager : NetworkBehaviour
     private float timeRemaining;
     private NetworkVariable<uint> timeRemainingInt = new NetworkVariable<uint>(default, NetworkVariableReadPermission.Everyone);
     private uint lastTimeRemainingInt;
-    public List<int> exitCoordinates = new List<int>();
+    public Vector2 exitCoordinates = new Vector2(-1, -1);
     public GameObject exitObject;
     [SerializeField]private int winState = -1; //-1, 0, 1 for not over, lose, win
+    public int exitRadius = 3;
 
     private bool serverGameManager = false;
     public static int expectedPlayers = 2;
@@ -75,7 +76,6 @@ public class GameManager : NetworkBehaviour
             playerIds.Add(players[i].GetComponent<NetworkObject>().OwnerClientId);
         }
         for(int i = 0; i < players.Count; i++){
-            Debug.Log("Assigning role " + roles[i] + " to player " + playerIds[i]);
             players[i].GetComponent<Player>().SetRoleClientRPC(roles[i], playerIds[i]);
         }
     }
@@ -124,7 +124,6 @@ public class GameManager : NetworkBehaviour
 
     private void ClientConnected(ulong u){
         players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
-        Debug.Log("Player Connected: " + u);
     }
 
     private async void ClientDisconnected(ulong u){
@@ -154,9 +153,27 @@ public class GameManager : NetworkBehaviour
 
     public void SetExitCoordinates(int x, int z){
         //Possibly validate coordinates
-        exitCoordinates.Add(x);
-        exitCoordinates.Add(z);
+        exitCoordinates = new Vector2(x, z);
+        
+        MoveFlashFromExit();
+        
     }
+
+    private void MoveFlashFromExit(){
+        int flashIndex = roles.IndexOf(1);
+        GameObject flash = players[flashIndex];
+        Vector2 flashCell = flash.GetComponent<Player>().cellCoords;
+        //if the exit is 3 cells away from flash, move flash
+        Debug.Log("Distance from exit: " + (Mathf.Abs(flashCell.x - exitCoordinates.x) + Mathf.Abs(flashCell.y - exitCoordinates.y)));
+        while(Mathf.Abs(flashCell.x - exitCoordinates.x) + Mathf.Abs(flashCell.y - exitCoordinates.y) < exitRadius){
+            //move flash
+            flashCell = new Vector2(Random.Range(0, 15), Random.Range(0, 10)); //better would be to take 1 step back constantly. Only problem is when edge is reached.
+            Debug.Log("Distance from exit: " + (Mathf.Abs(flashCell.x - exitCoordinates.x) + Mathf.Abs(flashCell.y - exitCoordinates.y)));
+        }
+
+        flash.GetComponent<Player>().UpdateCoordinates(flashCell);
+    }
+
     public void MakeExitObject(GameObject exit){
         exitObject = exit;
         //make the collider a trigger

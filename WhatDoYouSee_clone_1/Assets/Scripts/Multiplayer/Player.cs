@@ -11,19 +11,18 @@ public class Player : NetworkBehaviour
     int width = 15;
     int height = 10;
 
+    public Vector2 cellCoords = new Vector2(-1, -1);
+
     [ClientRpc]
     public void SetRoleClientRPC(int r, ulong id){
-        Debug.Log(id + "vs." + NetworkManager.Singleton.LocalClientId);
         if(id != NetworkManager.Singleton.LocalClientId){
             return;
         }
         role = r;
         if(role == 0){
-            Debug.Log("I am Cart");
             CartSetup();
             
         }else{
-            Debug.Log("I am Flash");
             FlashSetup();
             
         }
@@ -33,7 +32,6 @@ public class Player : NetworkBehaviour
     private void DisableByTag(string tag){
         GameObject[] objs = GameObject.FindGameObjectsWithTag(tag);
         foreach(GameObject obj in objs){
-            Debug.Log("Disabling " + obj.name);
             obj.SetActive(false);
         }
     }
@@ -65,6 +63,7 @@ public class Player : NetworkBehaviour
 
         float worldi_x = startX - x * cellSpacing;
         float worldi_z = startZ + z * cellSpacing;
+        cellCoords = new Vector2(x, z);
 
         transform.position = new Vector3(worldi_x, 1.5f, worldi_z);
     }
@@ -78,5 +77,12 @@ public class Player : NetworkBehaviour
             GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
             gm.ActivateEnd(true);
         }
+    }
+
+    public void UpdateCoordinates(Vector2 coords){
+        cellCoords = coords;
+        float worldi_x = startX - coords.x * cellSpacing;
+        float worldi_z = startZ + coords.y * cellSpacing;
+        transform.position = new Vector3(worldi_x, 1.5f, worldi_z);
     }
 }

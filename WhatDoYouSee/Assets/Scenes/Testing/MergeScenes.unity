@@ -3206,9 +3206,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeLimit: 180
-  exitCoordinates: 
+  exitCoordinates: {x: -1, y: -1}
   exitObject: {fileID: 0}
   winState: -1
+  exitRadius: 5
   roles: 
   players: []
   playerIds: 
