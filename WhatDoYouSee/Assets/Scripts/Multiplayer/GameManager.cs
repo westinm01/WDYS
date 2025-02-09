@@ -13,11 +13,11 @@ public class GameManager : NetworkBehaviour
     private NetworkVariable<uint> timeRemainingInt = new NetworkVariable<uint>(default, NetworkVariableReadPermission.Everyone);
     private uint lastTimeRemainingInt;
     private bool serverGameManager = false;
-
-
-    //gameobject array for players of size 2
-    public List<GameObject> players = new List<GameObject>(2);
-    //public List<TMPro.TextMeshProUGUI> timerTexts = new List<TMPro.TextMeshProUGUI>(2);
+    public static int expectedPlayers = 2;
+    public List<int> roles = new List<int>(expectedPlayers);
+    public  List<GameObject> players = new List<GameObject>(expectedPlayers);
+    public List<ulong> playerIds = new List<ulong>(expectedPlayers);
+    
     public Canvas c;
     private TMPro.TextMeshProUGUI timerText;
 
@@ -33,20 +33,57 @@ public class GameManager : NetworkBehaviour
         timeRemaining = timeLimit;
         timeRemainingInt.Value = (uint)timeRemaining;
         lastTimeRemainingInt = timeRemainingInt.Value;
+
+        //randomly determine roles ONCE on the server
+        DetermineRoles();
+
         NetworkManager.Singleton.OnClientConnectedCallback += ClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback += ClientDisconnected;
         
         timerText = c.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
-        
+        StartCoroutine(AssignRoles());
     }
     
+
+    private void DetermineRoles(){
+        //0 = cart, 1 = flash
+
+        for(int i = 0; i < expectedPlayers; i++){
+            roles.Add(i);
+        }
+        //shuffle
+        for(int i = 0; i < expectedPlayers; i++){
+            int temp = roles[i];
+            int randomIndex = Random.Range(i, expectedPlayers);
+            roles[i] = roles[randomIndex];
+            roles[randomIndex] = temp;
+        }
+    }
+
+    private IEnumerator AssignRoles(){
+        //while players.Count < expectedPlayers
+        while(players.Count < expectedPlayers){
+            yield return new WaitForSeconds(1f);
+        }
+        //assign playerIds ONCE everyone is here
+        for(int i = 0; i < players.Count; i++){
+            playerIds.Add(players[i].GetComponent<NetworkObject>().OwnerClientId);
+        }
+        for(int i = 0; i < players.Count; i++){
+            Debug.Log("Assigning role " + roles[i] + " to player " + playerIds[i]);
+            players[i].GetComponent<Player>().SetRoleClientRPC(roles[i], playerIds[i]);
+        }
+    }
+
+    
+
     void Update()
     {
         if(!serverGameManager)
         {
             return;
         }
-        if(players.Count <= 1)
+        if(players.Count < expectedPlayers)
         {
             return;
         }
@@ -82,7 +119,7 @@ public class GameManager : NetworkBehaviour
 
     private void ClientConnected(ulong u){
         players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
-        
+        Debug.Log("Player Connected: " + u);
     }
 
     private async void ClientDisconnected(ulong u){

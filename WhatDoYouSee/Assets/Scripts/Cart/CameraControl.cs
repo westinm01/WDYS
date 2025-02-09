@@ -9,7 +9,7 @@ public class CameraControl : MonoBehaviour
     public float maxZoom = 60f;  // Maximum field of view
 
     private Camera cam;
-    PlayerAssigner pa;
+    Player p;
 
     public float sensitivity = 100f; // Mouse sensitivity
     public bool lockCursor = true;   // Option to lock the cursor
@@ -23,7 +23,8 @@ public class CameraControl : MonoBehaviour
     {
         // Get the Camera component
         cam = gameObject.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Camera>();
-        pa = gameObject.GetComponent<PlayerAssigner>();
+        p = gameObject.GetComponent<Player>();
+        StartCoroutine(WaitForRoles());
         originalPosition = transform.position;
         originalRotation = transform.eulerAngles;
 
@@ -32,7 +33,7 @@ public class CameraControl : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
-        if(pa.isCart)
+        if(p.role == 0)
         {
            //get culling mask and deselect layer 3
             cam.cullingMask = ~(1 << 3); //might not even be necessary...
@@ -41,10 +42,17 @@ public class CameraControl : MonoBehaviour
 
     }
 
+    IEnumerator WaitForRoles()
+    {
+        while(p.role == -1){
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
     void Update()
     {
         // Get scroll wheel input
-        if(pa.isCart)
+        if(p.role == 0)
         { 
             float scrollInput = Input.GetAxis("Mouse ScrollWheel");
 
@@ -81,7 +89,7 @@ public class CameraControl : MonoBehaviour
     //create a function, ResetCamera, that interpolates the camera back to its original position and rotation
     public void ResetCamera()
     {
-        if(pa.isCart){
+        if(p.role == 0){
             StartCoroutine(ResetCameraCoroutine());
         }
         
