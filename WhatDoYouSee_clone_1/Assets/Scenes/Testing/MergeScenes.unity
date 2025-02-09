@@ -2909,7 +2909,7 @@ MonoBehaviour:
   width: 15
   height: 10
   numCells: 150
-  gm: {fileID: 0}
+  gm: {fileID: 1351681218}
 --- !u!4 &950925330
 Transform:
   m_ObjectHideFlags: 0
@@ -3206,6 +3206,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeLimit: 180
+  exitCoordinates: 
+  exitObject: {fileID: 0}
+  winState: -1
   roles: 
   players: []
   playerIds: 

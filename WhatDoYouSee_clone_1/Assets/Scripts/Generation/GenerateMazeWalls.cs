@@ -34,7 +34,7 @@ public class GenerateMazeWalls : NetworkBehaviour
             yield return null;
         }
 
-
+        //This if-else creates the exit
         //pick a random number 0 to 4
         int randomSide = Random.Range(0, 4);
 
@@ -184,7 +184,9 @@ public class GenerateMazeWalls : NetworkBehaviour
             rayStart2 = new Vector3(worldi_x, 2.5f, worldi_z + 0.7f);
         }
 
-        
+        if(isExit){
+            gm.SetExitCoordinates(i.x, i.y);
+        }
         
         DestroyWallClientRPC(rayStart1, direction, isExit);
         DestroyWallClientRPC(rayStart2, direction, isExit);
@@ -201,10 +203,15 @@ public class GenerateMazeWalls : NetworkBehaviour
         {
             if (hit.collider.CompareTag("innerWall") || isExit == true)
             {
-                Destroy(hit.collider.gameObject);
+                GameObject oldWall = hit.collider.gameObject;
+                if(isExit){
+                    GameObject exit = Instantiate(oldWall, oldWall.transform.position, oldWall.transform.rotation);
+                    gm.MakeExitObject(exit);
+                }
+                
+                
+                Destroy(oldWall);
             }
         }
-
-
     }
 }

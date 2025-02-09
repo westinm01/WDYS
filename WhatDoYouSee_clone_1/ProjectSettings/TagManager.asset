@@ -9,6 +9,7 @@ TagManager:
   - Cart
   - Flash
   - GameManager
+  - Exit
   layers:
   - Default
   - TransparentFX

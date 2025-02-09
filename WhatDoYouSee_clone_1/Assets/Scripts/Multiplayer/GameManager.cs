@@ -12,11 +12,16 @@ public class GameManager : NetworkBehaviour
     private float timeRemaining;
     private NetworkVariable<uint> timeRemainingInt = new NetworkVariable<uint>(default, NetworkVariableReadPermission.Everyone);
     private uint lastTimeRemainingInt;
+    public List<int> exitCoordinates = new List<int>();
+    public GameObject exitObject;
+    [SerializeField]private int winState = -1; //-1, 0, 1 for not over, lose, win
+
     private bool serverGameManager = false;
     public static int expectedPlayers = 2;
     public List<int> roles = new List<int>(expectedPlayers);
     public  List<GameObject> players = new List<GameObject>(expectedPlayers);
     public List<ulong> playerIds = new List<ulong>(expectedPlayers);
+    
     
     public Canvas c;
     private TMPro.TextMeshProUGUI timerText;
@@ -128,17 +133,37 @@ public class GameManager : NetworkBehaviour
         
     }
 
+    public void ActivateEnd(bool win){
+        winState = win ? 1 : 0;
+        ActivateEndClientRPC(win);
+    }
+
     [ClientRpc]
     void ActivateEndClientRPC(bool win){
         if(win){
             //display win message
+            winState = 1;
             c.GetComponent<CanvasManager>().ShowWin();
         }
         else{
             //display lose message
+            winState = 0;
             c.GetComponent<CanvasManager>().ShowLose();
         }
     }
 
+    public void SetExitCoordinates(int x, int z){
+        //Possibly validate coordinates
+        exitCoordinates.Add(x);
+        exitCoordinates.Add(z);
+    }
+    public void MakeExitObject(GameObject exit){
+        exitObject = exit;
+        //make the collider a trigger
+        exitObject.GetComponent<BoxCollider>().isTrigger = true;
+        exitObject.GetComponent<MeshRenderer>().enabled = false;
+        //tag it with the "Exit" tag
+        exitObject.tag = "Exit";
+    }
 
 }

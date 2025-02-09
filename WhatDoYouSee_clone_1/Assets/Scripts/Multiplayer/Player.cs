@@ -7,7 +7,10 @@ public class Player : NetworkBehaviour
 {
     // Start is called before the first frame update
     public int role = -1;
-    
+    private const float startX = 85f, startZ = -65f, cellSpacing = 10f; //also in GenerateMazeWalls. Might be better in GM.
+    int width = 15;
+    int height = 10;
+
     [ClientRpc]
     public void SetRoleClientRPC(int r, ulong id){
         Debug.Log(id + "vs." + NetworkManager.Singleton.LocalClientId);
@@ -52,7 +55,28 @@ public class Player : NetworkBehaviour
 
     private void FlashSetup(){
         DisableByTag("Cart");
+        //Random start cell
         
-        transform.position = new Vector3(85, 0, -55);
+        int randomCell = Random.Range(0, width); //first number
+        int x = randomCell;
+        randomCell = Random.Range(0, height);
+        int z = randomCell;
+        Debug.Log("Random cell: " + x + ", " + z);
+
+        float worldi_x = startX - x * cellSpacing;
+        float worldi_z = startZ + z * cellSpacing;
+
+        transform.position = new Vector3(worldi_x, 1.5f, worldi_z);
+    }
+
+    void OnTriggerEnter(Collider collision)
+    {
+        if(role == 1 && collision.gameObject.CompareTag("Exit"))
+        {
+            
+            //Flash wins
+            GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+            gm.ActivateEnd(true);
+        }
     }
 }
