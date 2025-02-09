@@ -3206,7 +3206,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeLimit: 180
+  roles: 
   players: []
+  playerIds: 
   c: {fileID: 589387806}
 --- !u!1 &1484701212
 GameObject:
