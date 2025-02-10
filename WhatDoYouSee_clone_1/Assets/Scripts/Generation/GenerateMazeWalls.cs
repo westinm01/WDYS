@@ -147,7 +147,7 @@ public class GenerateMazeWalls : NetworkBehaviour
             //print("TOTAL Path length: " + path.Count);
             debugCounter--;
         }
-
+        gm.MazeDone();
         
     }
 
@@ -193,6 +193,7 @@ public class GenerateMazeWalls : NetworkBehaviour
         //exception handling maybe
 
         //print($"Destroyed wall between ({i.x}, {i.y}) and ({j.x}, {j.y})");
+        
     }
 
     [ClientRpc]

@@ -85,4 +85,15 @@ public class Player : NetworkBehaviour
         float worldi_z = startZ + coords.y * cellSpacing;
         transform.position = new Vector3(worldi_x, 1.5f, worldi_z);
     }
+
+    /*public IEnumerator WaitForMaze(CanvasManager cm){
+        //maybe put disable controls
+        while(!isMazeDone){
+            yield return null;
+        }
+        Debug.Log("Maze is done");
+        //maze is done
+        //disable loading screen
+        cm.HideLoading();
+    }*/
 }
