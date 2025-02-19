@@ -23,6 +23,8 @@ public class GameManager : NetworkBehaviour
     public List<int> roles = new List<int>(expectedPlayers);
     public  List<GameObject> players = new List<GameObject>(expectedPlayers);
     public List<ulong> playerIds = new List<ulong>(expectedPlayers);
+
+    public int gameState = 0;
     
     
     public Canvas c;
@@ -149,6 +151,9 @@ public class GameManager : NetworkBehaviour
     private void ClientConnected(ulong u){
         players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
         EnableLoadingClientRPC(u);
+        if(players.Count == expectedPlayers){
+            gameState = 1;
+        }
     }
 
     private async void ClientDisconnected(ulong u){
