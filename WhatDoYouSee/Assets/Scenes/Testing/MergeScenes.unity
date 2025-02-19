@@ -120,79 +120,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &150790631
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 150790634}
-  - component: {fileID: 150790633}
-  - component: {fileID: 150790632}
-  m_Layer: 0
-  m_Name: LandmarkGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &150790632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 150790631}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2736107571
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
---- !u!114 &150790633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 150790631}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0173ee80f4031642b89c80058ccfc24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wallLandMarks: []
-  cornerLandMarks:
-  - {fileID: 6653556705716886667, guid: c158517b94ea136418c0ed476337815d, type: 3}
-  - {fileID: 4630697019215966507, guid: 77bf81bb4ba0e12418503366972c8afa, type: 3}
-  centerLandMarks:
-  - {fileID: 6653556705716886667, guid: c158517b94ea136418c0ed476337815d, type: 3}
-  gameState: 1
-  cellWidth: 10
---- !u!4 &150790634
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 150790631}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &277814150
 GameObject:
   m_ObjectHideFlags: 0
@@ -3035,9 +2962,10 @@ MonoBehaviour:
   wallLandMarks: []
   cornerLandMarks:
   - {fileID: 4630697019215966507, guid: 77bf81bb4ba0e12418503366972c8afa, type: 3}
-  - {fileID: 6653556705716886667, guid: c158517b94ea136418c0ed476337815d, type: 3}
+  - {fileID: 4908242622404753310, guid: c158517b94ea136418c0ed476337815d, type: 3}
+  - {fileID: 5209371463895100247, guid: 20cd7eed17dd21940ac4cb62f4249051, type: 3}
   centerLandMarks:
-  - {fileID: 6653556705716886667, guid: c158517b94ea136418c0ed476337815d, type: 3}
+  - {fileID: 1317847508814214079, guid: d6824980984d06d48a4c210862878beb, type: 3}
   gameState: 1
   cellWidth: 10
 --- !u!1 &1126073919
@@ -4181,6 +4109,5 @@ SceneRoots:
   - {fileID: 1484701214}
   - {fileID: 1670528481}
   - {fileID: 950925330}
-  - {fileID: 150790634}
   - {fileID: 795157011}
   - {fileID: 2038473091}
