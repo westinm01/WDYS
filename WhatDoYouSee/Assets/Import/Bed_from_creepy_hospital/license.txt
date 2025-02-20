@@ -1,0 +1,11 @@
+Model Information:
+* title:	Bed from creepy hospital
+* source:	https://sketchfab.com/3d-models/bed-from-creepy-hospital-a4caf9d5699b4040a275501bb1f6614b
+* author:	Reliefy3D (https://sketchfab.com/Krystian.Kulasek)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Bed from creepy hospital" (https://sketchfab.com/3d-models/bed-from-creepy-hospital-a4caf9d5699b4040a275501bb1f6614b) by Reliefy3D (https://sketchfab.com/Krystian.Kulasek) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
