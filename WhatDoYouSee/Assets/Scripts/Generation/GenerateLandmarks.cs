@@ -27,7 +27,7 @@ public class GenerateLandmarks : NetworkBehaviour
     IEnumerator GenerateLandMarksCoroutine(){
         while(gm.gameState < gameState){
             //wait for 0.5 seconds
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.25f);
            
         }
         //for each row in the maze
@@ -42,6 +42,7 @@ public class GenerateLandmarks : NetworkBehaviour
             }
 
         }
+        gm.gameState++;
     }
     
 
@@ -52,6 +53,8 @@ public class GenerateLandmarks : NetworkBehaviour
     Vector2 GenerateRandomLandMark(Vector3 cellPosition){
         int randomLandmark = Random.Range(0, 3);
         int randomLandmarkObject = 0;
+        
+        Quaternion randomRotation = Quaternion.Euler(0, Random.Range(0f, 3f) * 90, 0);
         if(randomLandmark == 0){
             //wall landmark
             //GameObject wallLandMark = Instantiate(wallLandMarks[Random.Range(0, wallLandMarks.Count)], cellPosition, Quaternion.identity); //TODO: pick a random wall and use it's rotation and position
@@ -62,14 +65,14 @@ public class GenerateLandmarks : NetworkBehaviour
             Vector3 cornerPosition = new Vector3(cellPosition.x + cellWidth * (Random.Range(0,2) * 0.6f - 0.3f), cellPosition.y, cellPosition.z + cellWidth * (Random.Range(0,2) * 0.6f - 0.3f));
             int randomCornerLandmark = Random.Range(0, cornerLandMarks.Count);
             //Debug.Log("SERVER: Spawning corner landmark at " + cornerPosition);
-            SpawnObjectClientRPC(randomLandmark, randomCornerLandmark, cornerPosition, Quaternion.identity);
+            SpawnObjectClientRPC(randomLandmark, randomCornerLandmark, cornerPosition, randomRotation);
             randomLandmarkObject = randomCornerLandmark;
         }
         else{
             //center landmark
             int randomCenterLandmark = Random.Range(0, centerLandMarks.Count);
             //Debug.Log("SERVER: Spawning corner landmark at " + cellPosition);
-            SpawnObjectClientRPC(randomLandmark, randomCenterLandmark, cellPosition, Quaternion.identity);
+            SpawnObjectClientRPC(randomLandmark, randomCenterLandmark, cellPosition, randomRotation);
             randomLandmarkObject = randomCenterLandmark;
         }
         return new Vector2(randomLandmark, randomLandmarkObject);
@@ -83,10 +86,10 @@ public class GenerateLandmarks : NetworkBehaviour
             Instantiate(wallLandMarks[landmark], position, Quaternion.identity);
         }
         else if(landmarkList == 1){
-            Instantiate(cornerLandMarks[landmark], position, Quaternion.identity);
+            Instantiate(cornerLandMarks[landmark], position, rotation);
         }
         else{
-            Instantiate(centerLandMarks[landmark], position, Quaternion.identity);
+            Instantiate(centerLandMarks[landmark], position, rotation);
         }
         
         
