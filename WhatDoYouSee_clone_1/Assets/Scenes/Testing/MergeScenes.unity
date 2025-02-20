@@ -2986,11 +2986,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallLandMarks: []
   cornerLandMarks:
-  - {fileID: 4630697019215966507, guid: 77bf81bb4ba0e12418503366972c8afa, type: 3}
+  - {fileID: 5700020450994596825, guid: 07274104086b2da4db516a707acfd520, type: 3}
   - {fileID: 4908242622404753310, guid: c158517b94ea136418c0ed476337815d, type: 3}
   - {fileID: 5209371463895100247, guid: 20cd7eed17dd21940ac4cb62f4249051, type: 3}
+  - {fileID: 5198232533802958504, guid: ce6f611eb3a3b7f40bd6892b24a2dc4e, type: 3}
   centerLandMarks:
-  - {fileID: 1317847508814214079, guid: d6824980984d06d48a4c210862878beb, type: 3}
+  - {fileID: 7834695711665406292, guid: 89d1db83439901043a57a3431084f8bf, type: 3}
+  - {fileID: 5383318977664274248, guid: 8e1d5d0aa62eefd40b832cd45a836c21, type: 3}
+  - {fileID: 2990935644142932036, guid: c7a068ab91a62bb4db639afdc8482f92, type: 3}
   gameState: 1
   cellWidth: 10
 --- !u!1 &1126073919
