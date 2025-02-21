@@ -2984,7 +2984,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0173ee80f4031642b89c80058ccfc24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallLandMarks: []
+  wallLandMarks:
+  - {fileID: 1072726722743944477, guid: 0698c8cca2f1e9642b58e41083d0a5d9, type: 3}
+  - {fileID: 4737341183564867089, guid: aee34fbb19656b14cb839e98292d4963, type: 3}
+  - {fileID: 8939176461254836711, guid: 2d18a708b5b3ffb429d1abbce81e1cbd, type: 3}
+  - {fileID: 8867536793462713573, guid: 237c3af1a0a25404590ff04aa206a118, type: 3}
+  - {fileID: 5951376335870126842, guid: ac975624d86359f4fa09929a54de3c8f, type: 3}
+  - {fileID: 7969677718311464311, guid: 92fd6634fa691f64fa80ff025368ceab, type: 3}
   cornerLandMarks:
   - {fileID: 5700020450994596825, guid: 07274104086b2da4db516a707acfd520, type: 3}
   - {fileID: 4908242622404753310, guid: c158517b94ea136418c0ed476337815d, type: 3}

@@ -57,6 +57,30 @@ public class GenerateLandmarks : NetworkBehaviour
         Quaternion randomRotation = Quaternion.Euler(0, Random.Range(0f, 3f) * 90, 0);
         if(randomLandmark == 0){
             //wall landmark
+            //Pick a random direction
+            int direction = Random.Range(0, 4);
+            int dx = 0;
+            int dz = 0;
+            switch(direction){
+                case 0:
+                    dx = 1;
+                    break;
+                case 1:
+                    dx = -1;
+                    break;
+                case 2:
+                    dz = 1;
+                    break;
+                case 3:
+                    dz = -1;
+                    break;
+            }
+
+            int randomDecal = Random.Range(0, wallLandMarks.Count);
+            Vector3 e = new Vector3(cellPosition.x + dx, cellPosition.y + 1, cellPosition.z + dz);
+            //This might be troubling if there are colliders in the way...
+            SpawnObjectClientRPC(randomLandmark, randomDecal, cellPosition, randomRotation, e, new Vector3(dz, 0f, -1* dx)); //the d parameter is strange, but it's the direction vector to hit the right wall
+            randomLandmarkObject = randomDecal;
             //GameObject wallLandMark = Instantiate(wallLandMarks[Random.Range(0, wallLandMarks.Count)], cellPosition, Quaternion.identity); //TODO: pick a random wall and use it's rotation and position
             //randomLandmarkObject =
         }
@@ -79,11 +103,24 @@ public class GenerateLandmarks : NetworkBehaviour
     }
 
     [ClientRpc]
-    void SpawnObjectClientRPC(int landmarkList, int landmark, Vector3 position, Quaternion rotation){
+    void SpawnObjectClientRPC(int landmarkList, int landmark, Vector3 position, Quaternion rotation, Vector3 e = new Vector3(), Vector3 d = new Vector3()){
         //Debug.Log("CLIENT: Spawning landmark at " + position);
         //TODO: Spawn the object at an appropriate y (might need to calculate object height somehow...)
-        if(landmarkList  == 0){
-            Instantiate(wallLandMarks[landmark], position, Quaternion.identity);
+        if(landmarkList == 0){
+            RaycastHit hit;
+            if (Physics.Raycast(e, d, out hit, cellWidth))
+            {
+                    GameObject right = hit.collider.gameObject;
+                    //create a new landmark object as a child of right
+                    GameObject newLandmark = Instantiate(wallLandMarks[landmark], right.transform);
+                    newLandmark.transform.localScale = new Vector3(1f, 1f, 1f);
+                    newLandmark.transform.localRotation = Quaternion.Euler(0f, 90f, 0f); //rotate y
+                    newLandmark.transform.localPosition = new Vector3(0.5f * d.z, 0f, 0.5f * d.x);
+                    
+                    
+                    
+            }
+            //Instantiate(wallLandMarks[landmark], position, Quaternion.identity);
         }
         else if(landmarkList == 1){
             Instantiate(cornerLandMarks[landmark], position, rotation);

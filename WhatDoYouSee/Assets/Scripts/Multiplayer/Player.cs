@@ -74,9 +74,14 @@ public class Player : NetworkBehaviour
         {
             
             //Flash wins
-            GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-            gm.ActivateEnd(true);
+            
+            ActivateEndServerRPC(true);//might need to take this to the serverRPC
         }
+    }
+    [ServerRpc]
+    void ActivateEndServerRPC(bool win){
+        GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gm.ActivateEnd(win);
     }
 
     public void UpdateCoordinates(Vector2 coords){
