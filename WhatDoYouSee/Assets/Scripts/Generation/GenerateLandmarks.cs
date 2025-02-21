@@ -79,7 +79,7 @@ public class GenerateLandmarks : NetworkBehaviour
             int randomDecal = Random.Range(0, wallLandMarks.Count);
             Vector3 e = new Vector3(cellPosition.x + dx, cellPosition.y + 1, cellPosition.z + dz);
             //This might be troubling if there are colliders in the way...
-            SpawnObjectClientRPC(randomLandmark, randomDecal, cellPosition, randomRotation, e, new Vector3(dz, 0f, -1* dx)); //the d parameter is strange, but it's the direction vector to hit the right wall
+            SpawnObjectClientRPC(randomLandmark, randomDecal, cellPosition, randomRotation, e, dx, dz); //the d parameter is strange, but it's the direction vector to hit the right wall
             randomLandmarkObject = randomDecal;
             //GameObject wallLandMark = Instantiate(wallLandMarks[Random.Range(0, wallLandMarks.Count)], cellPosition, Quaternion.identity); //TODO: pick a random wall and use it's rotation and position
             //randomLandmarkObject =
@@ -103,19 +103,27 @@ public class GenerateLandmarks : NetworkBehaviour
     }
 
     [ClientRpc]
-    void SpawnObjectClientRPC(int landmarkList, int landmark, Vector3 position, Quaternion rotation, Vector3 e = new Vector3(), Vector3 d = new Vector3()){
+    void SpawnObjectClientRPC(int landmarkList, int landmark, Vector3 position, Quaternion rotation, Vector3 e = new Vector3(), int dx = 0, int dz = 0){
         //Debug.Log("CLIENT: Spawning landmark at " + position);
         //TODO: Spawn the object at an appropriate y (might need to calculate object height somehow...)
         if(landmarkList == 0){
             RaycastHit hit;
-            if (Physics.Raycast(e, d, out hit, cellWidth))
+            Vector3 direction = new Vector3(-1* dz, 0, dx);
+            if (Physics.Raycast(e, direction, out hit, cellWidth))
             {
                     GameObject right = hit.collider.gameObject;
                     //create a new landmark object as a child of right
                     GameObject newLandmark = Instantiate(wallLandMarks[landmark], right.transform);
                     newLandmark.transform.localScale = new Vector3(1f, 1f, 1f);
-                    newLandmark.transform.localRotation = Quaternion.Euler(0f, 90f, 0f); //rotate y
-                    newLandmark.transform.localPosition = new Vector3(0.5f * d.z, 0f, 0.5f * d.x);
+                    //newLandmark.transform.localRotation = Quaternion.Euler(0f, -90f, 0f); //rotate y
+                    if(direction.x + direction.z < 0){
+                        newLandmark.transform.localRotation = Quaternion.Euler(0f, 90f, 0f); //rotate y
+                        newLandmark.transform.localPosition = new Vector3(-1f, 0f, 0.5f);
+                    }
+                    else{
+                        newLandmark.transform.localRotation = Quaternion.Euler(0f, -90f, 0f); //rotate y
+                        newLandmark.transform.localPosition = new Vector3(1f, 0f, -0.5f);
+                    }
                     
                     
                     
