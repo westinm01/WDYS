@@ -9,7 +9,7 @@ public class GenerateMazeWalls : NetworkBehaviour
     public int numCells;
     private bool[,] visited;
     public GameManager gm;
-    
+    public int gameState = 2; //when this is expected to occur
     
 
     // Constants for cell spacing and starting position
@@ -30,8 +30,8 @@ public class GenerateMazeWalls : NetworkBehaviour
 
     IEnumerator GenerateMazeCoroutine()
     {
-        while(gm.players.Count < 2){
-            yield return null;
+        while(gm.gameState < gameState){
+            yield return new WaitForSeconds(0.25f);
         }
 
         //This if-else creates the exit
@@ -141,13 +141,14 @@ public class GenerateMazeWalls : NetworkBehaviour
             for (int i = 0; i < currPath.Count - 1; i++)
             {
                 DestroyWall(currPath[i], currPath[i + 1]);
-                yield return new WaitForSeconds(0.035f); // Pause for visibility
+                //yield return new WaitForSeconds(0.035f); // Pause for visibility
+                yield return null;
             }
 
             //print("TOTAL Path length: " + path.Count);
             debugCounter--;
         }
-
+        gm.MazeDone();
         
     }
 
@@ -193,6 +194,7 @@ public class GenerateMazeWalls : NetworkBehaviour
         //exception handling maybe
 
         //print($"Destroyed wall between ({i.x}, {i.y}) and ({j.x}, {j.y})");
+        
     }
 
     [ClientRpc]

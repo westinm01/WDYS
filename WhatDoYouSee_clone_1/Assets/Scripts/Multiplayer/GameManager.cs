@@ -16,12 +16,15 @@ public class GameManager : NetworkBehaviour
     public GameObject exitObject;
     [SerializeField]private int winState = -1; //-1, 0, 1 for not over, lose, win
     public int exitRadius = 3;
+    private bool isMazeDone = false;
 
     private bool serverGameManager = false;
     public static int expectedPlayers = 2;
     public List<int> roles = new List<int>(expectedPlayers);
     public  List<GameObject> players = new List<GameObject>(expectedPlayers);
     public List<ulong> playerIds = new List<ulong>(expectedPlayers);
+
+    public int gameState = 0;
     
     
     public Canvas c;
@@ -29,6 +32,7 @@ public class GameManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        
         if(!IsServer)
         {
             enabled = false;
@@ -75,16 +79,38 @@ public class GameManager : NetworkBehaviour
         for(int i = 0; i < players.Count; i++){
             playerIds.Add(players[i].GetComponent<NetworkObject>().OwnerClientId);
         }
+        
         for(int i = 0; i < players.Count; i++){
             players[i].GetComponent<Player>().SetRoleClientRPC(roles[i], playerIds[i]);
+            if(roles[i] == 0){
+                DisableLoadingClientRPC(playerIds[i]);
+            }
         }
     }
+
+    [ClientRpc]
+    public void DisableLoadingClientRPC(ulong id){
+        Debug.Log("Disabling loading screen for " + id + " vs. " + NetworkManager.Singleton.LocalClientId);
+        if(id != NetworkManager.Singleton.LocalClientId){
+            return;
+        }
+        c.GetComponent<CanvasManager>().HideLoading();
+    }
+    
+    [ClientRpc]
+    public void EnableLoadingClientRPC(ulong id){
+        if(id != NetworkManager.Singleton.LocalClientId){
+            return;
+        }
+        c.GetComponent<CanvasManager>().ShowLoading();
+    }
+
 
     
 
     void Update()
     {
-        if(!serverGameManager)
+        if(!serverGameManager || isMazeDone == false)
         {
             return;
         }
@@ -124,6 +150,10 @@ public class GameManager : NetworkBehaviour
 
     private void ClientConnected(ulong u){
         players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
+        EnableLoadingClientRPC(u);
+        if(players.Count == expectedPlayers){
+            gameState = 1;
+        }
     }
 
     private async void ClientDisconnected(ulong u){
@@ -181,6 +211,16 @@ public class GameManager : NetworkBehaviour
         exitObject.GetComponent<MeshRenderer>().enabled = false;
         //tag it with the "Exit" tag
         exitObject.tag = "Exit";
+    }
+
+    public void MazeDone(){
+        isMazeDone = true;
+        //deactivate loading screen for flash
+        //Go through each player and call hide loading screen
+        for(int i = 0; i < players.Count; i++){
+                DisableLoadingClientRPC(playerIds[i]);
+        }
+
     }
 
 }

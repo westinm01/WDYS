@@ -6,6 +6,7 @@ public class CanvasManager : MonoBehaviour
 {
     public GameObject WinPanel;
     public GameObject LosePanel;
+    public GameObject LoadingPanel;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,5 +24,13 @@ public class CanvasManager : MonoBehaviour
     }
     public void ShowLose(){
         LosePanel.SetActive(true);
+    }
+
+    public void ShowLoading(){
+        LoadingPanel.SetActive(true);
+    }
+
+    public void HideLoading(){
+        LoadingPanel.SetActive(false);
     }
 }

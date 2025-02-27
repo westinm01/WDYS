@@ -74,9 +74,14 @@ public class Player : NetworkBehaviour
         {
             
             //Flash wins
-            GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-            gm.ActivateEnd(true);
+            
+            ActivateEndServerRPC(true);//might need to take this to the serverRPC
         }
+    }
+    [ServerRpc]
+    void ActivateEndServerRPC(bool win){
+        GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gm.ActivateEnd(win);
     }
 
     public void UpdateCoordinates(Vector2 coords){
@@ -85,4 +90,15 @@ public class Player : NetworkBehaviour
         float worldi_z = startZ + coords.y * cellSpacing;
         transform.position = new Vector3(worldi_x, 1.5f, worldi_z);
     }
+
+    /*public IEnumerator WaitForMaze(CanvasManager cm){
+        //maybe put disable controls
+        while(!isMazeDone){
+            yield return null;
+        }
+        Debug.Log("Maze is done");
+        //maze is done
+        //disable loading screen
+        cm.HideLoading();
+    }*/
 }
