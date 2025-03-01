@@ -45,7 +45,11 @@ public class Player : NetworkBehaviour
             transform.rotation = GameObject.FindGameObjectWithTag("CartPoint").transform.rotation;
             //disable collider
             gameObject.GetComponent<CapsuleCollider>().enabled = false;
-            
+            //get cameracontrol
+            CameraControl cc = gameObject.GetComponent<CameraControl>();
+            cc.setOriginalPosition(transform.position);
+            cc.setOriginalRotation(transform.eulerAngles);
+
             DisableByTag("Flash");
             
             

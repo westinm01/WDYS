@@ -106,6 +106,17 @@ public class CameraControl : MonoBehaviour
             yield return null;
         }
     }
+
+    public void setOriginalPosition(Vector3 pos)
+    {
+        originalPosition = pos;
+    }
+
+    public void setOriginalRotation(Vector3 rot)
+    {
+        originalRotation = rot;
+    }
+
 }
 
 
