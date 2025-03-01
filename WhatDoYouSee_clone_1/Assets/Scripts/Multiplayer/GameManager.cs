@@ -73,24 +73,29 @@ public class GameManager : NetworkBehaviour
     private IEnumerator AssignRoles(){
         //while players.Count < expectedPlayers
         while(players.Count < expectedPlayers){
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(.25f);
         }
         //assign playerIds ONCE everyone is here
+        Debug.Log("0: Record player ids");
         for(int i = 0; i < players.Count; i++){
             playerIds.Add(players[i].GetComponent<NetworkObject>().OwnerClientId);
         }
-        
+        gameState = 1;
+        while(gameState < 2){
+            yield return new WaitForSeconds(0.10f);
+        }
+        Debug.Log("2: Assign roles + cart view");
         for(int i = 0; i < players.Count; i++){
             players[i].GetComponent<Player>().SetRoleClientRPC(roles[i], playerIds[i]);
             if(roles[i] == 0){
                 DisableLoadingClientRPC(playerIds[i]);
             }
         }
+        gameState++;
     }
 
     [ClientRpc]
     public void DisableLoadingClientRPC(ulong id){
-        Debug.Log("Disabling loading screen for " + id + " vs. " + NetworkManager.Singleton.LocalClientId);
         if(id != NetworkManager.Singleton.LocalClientId){
             return;
         }
@@ -151,9 +156,6 @@ public class GameManager : NetworkBehaviour
     private void ClientConnected(ulong u){
         players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
         EnableLoadingClientRPC(u);
-        if(players.Count == expectedPlayers){
-            gameState = 1;
-        }
     }
 
     private async void ClientDisconnected(ulong u){
@@ -195,10 +197,14 @@ public class GameManager : NetworkBehaviour
         Vector2 flashCell = flash.GetComponent<Player>().cellCoords;
         //if the exit is 3 cells away from flash, move flash
         Debug.Log("Distance from exit: " + (Mathf.Abs(flashCell.x - exitCoordinates.x) + Mathf.Abs(flashCell.y - exitCoordinates.y)));
+        Debug.Log("Exit coordinates: " + exitCoordinates);
+        Debug.Log("Flash coordinates: " + flashCell);
         while(Mathf.Abs(flashCell.x - exitCoordinates.x) + Mathf.Abs(flashCell.y - exitCoordinates.y) < exitRadius){
             //move flash
             flashCell = new Vector2(Random.Range(0, 15), Random.Range(0, 10)); //better would be to take 1 step back constantly. Only problem is when edge is reached.
             Debug.Log("Distance from exit: " + (Mathf.Abs(flashCell.x - exitCoordinates.x) + Mathf.Abs(flashCell.y - exitCoordinates.y)));
+            Debug.Log("Exit coordinates: " + exitCoordinates);
+            Debug.Log("Flash coordinates: " + flashCell);
         }
 
         flash.GetComponent<Player>().UpdateCoordinates(flashCell);
