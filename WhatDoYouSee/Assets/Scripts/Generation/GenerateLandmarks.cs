@@ -31,7 +31,7 @@ public class GenerateLandmarks : NetworkBehaviour
            
         }
         //for each row in the maze
-        Debug.Log("Generating Landmarks!");
+        Debug.Log(gameState + ": Generating Landmarks!");
         for(int i = 0; i < mapHeight; i++){
             int randomNumberOfCells = Random.Range(1, mapWidth); //can also change this to be a fixed number
             for(int j = 0; j < randomNumberOfCells; j++){
@@ -42,7 +42,7 @@ public class GenerateLandmarks : NetworkBehaviour
             }
 
         }
-        gm.gameState++;
+        gm.gameState++; //should go to 2
     }
     
 

@@ -59,7 +59,7 @@ public class Player : NetworkBehaviour
         int x = randomCell;
         randomCell = Random.Range(0, height);
         int z = randomCell;
-        Debug.Log("Random cell: " + x + ", " + z);
+        Debug.Log("Random Flash starting cell: " + x + ", " + z);
 
         float worldi_x = startX - x * cellSpacing;
         float worldi_z = startZ + z * cellSpacing;
