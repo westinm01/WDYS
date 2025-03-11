@@ -9,7 +9,7 @@ public class GenerateMazeWalls : NetworkBehaviour
     public int numCells;
     private bool[,] visited;
     public GameManager gm;
-    public int gameState = 2; //when this is expected to occur
+    public int gameState = 3; //when this is expected to occur
     
 
     // Constants for cell spacing and starting position
@@ -24,7 +24,7 @@ public class GenerateMazeWalls : NetworkBehaviour
             return;
         }
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        print("Starting maze script!");
+        
         StartCoroutine(GenerateMazeCoroutine());
     }
 
@@ -33,6 +33,7 @@ public class GenerateMazeWalls : NetworkBehaviour
         while(gm.gameState < gameState){
             yield return new WaitForSeconds(0.25f);
         }
+        Debug.Log(gameState + ": Generating Maze Walls!");
 
         //This if-else creates the exit
         //pick a random number 0 to 4

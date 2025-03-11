@@ -45,7 +45,11 @@ public class Player : NetworkBehaviour
             transform.rotation = GameObject.FindGameObjectWithTag("CartPoint").transform.rotation;
             //disable collider
             gameObject.GetComponent<CapsuleCollider>().enabled = false;
-            
+            //get cameracontrol
+            CameraControl cc = gameObject.GetComponent<CameraControl>();
+            cc.setOriginalPosition(transform.position);
+            cc.setOriginalRotation(transform.eulerAngles);
+
             DisableByTag("Flash");
             
             
@@ -59,7 +63,7 @@ public class Player : NetworkBehaviour
         int x = randomCell;
         randomCell = Random.Range(0, height);
         int z = randomCell;
-        Debug.Log("Random cell: " + x + ", " + z);
+        Debug.Log("Random Flash starting cell: " + x + ", " + z);
 
         float worldi_x = startX - x * cellSpacing;
         float worldi_z = startZ + z * cellSpacing;

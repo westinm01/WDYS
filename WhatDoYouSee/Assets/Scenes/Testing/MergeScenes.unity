@@ -3111,7 +3111,7 @@ MonoBehaviour:
   height: 10
   numCells: 150
   gm: {fileID: 1351681218}
-  gameState: 2
+  gameState: 3
 --- !u!4 &950925330
 Transform:
   m_ObjectHideFlags: 0
