@@ -5,20 +5,23 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Testing/MultiplayerSpawn.unity
     guid: 56ed7d16a53325e47bc668f08dbbf1db
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/emptyMap.unity
     guid: 287a7f955f2e8054f99d112549a82333
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/emptyMap 1.unity
     guid: b175181e89067664faa0bd9e0b0e36d4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Testing/MergeScenes.unity
     guid: e1fcac7265e5ceb4689b6fe9146b7a70
+  - enabled: 1
+    path: Assets/Scenes/Matchmaking.unity
+    guid: 7087204caeb7178449a94ee975cb9a67
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
