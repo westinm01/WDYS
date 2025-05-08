@@ -1,0 +1,11 @@
+Model Information:
+* title:	[CCO] Decal - Graffiti Textures
+* source:	https://sketchfab.com/3d-models/cco-decal-graffiti-textures-4b3bc244cccf4acb8d402372d8ce1db0
+* author:	karlwirbelwind (https://sketchfab.com/karlwirbelwind)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "[CCO] Decal - Graffiti Textures" (https://sketchfab.com/3d-models/cco-decal-graffiti-textures-4b3bc244cccf4acb8d402372d8ce1db0) by karlwirbelwind (https://sketchfab.com/karlwirbelwind) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
