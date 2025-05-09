@@ -1,0 +1,11 @@
+Model Information:
+* title:	Pile of Skulls
+* source:	https://sketchfab.com/3d-models/pile-of-skulls-11d46d32494c44218a55192adc067e57
+* author:	Abimael Gonzalez (https://sketchfab.com/abimaelgonzalez)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Pile of Skulls" (https://sketchfab.com/3d-models/pile-of-skulls-11d46d32494c44218a55192adc067e57) by Abimael Gonzalez (https://sketchfab.com/abimaelgonzalez) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
