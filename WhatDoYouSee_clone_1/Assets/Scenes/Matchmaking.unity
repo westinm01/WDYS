@@ -2939,7 +2939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstTime: 1
-  testFirstTime: 0
+  testFirstTime: 1
   username: 
 --- !u!4 &1922758840
 Transform:

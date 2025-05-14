@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-public class Player : NetworkBehaviour
+public class PlayerObject : NetworkBehaviour
 {
     // Start is called before the first frame update
     public int role = -1;

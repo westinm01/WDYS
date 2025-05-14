@@ -9,7 +9,7 @@ public class CameraControl : MonoBehaviour
     public float maxZoom = 60f;  // Maximum field of view
 
     private Camera cam;
-    Player p;
+    PlayerObject p;
 
     public float sensitivity = 100f; // Mouse sensitivity
     public bool lockCursor = true;   // Option to lock the cursor
@@ -23,7 +23,7 @@ public class CameraControl : MonoBehaviour
     {
         // Get the Camera component
         cam = gameObject.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Camera>();
-        p = gameObject.GetComponent<Player>();
+        p = gameObject.GetComponent<PlayerObject>();
         StartCoroutine(WaitForRoles());
         originalPosition = transform.position;
         originalRotation = transform.eulerAngles;

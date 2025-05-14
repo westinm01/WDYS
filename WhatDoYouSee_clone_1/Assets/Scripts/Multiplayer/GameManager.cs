@@ -86,7 +86,7 @@ public class GameManager : NetworkBehaviour
         }
         Debug.Log("2: Assign roles + cart view");
         for(int i = 0; i < players.Count; i++){
-            players[i].GetComponent<Player>().SetRoleClientRPC(roles[i], playerIds[i]);
+            players[i].GetComponent<PlayerObject>().SetRoleClientRPC(roles[i], playerIds[i]);
             if(roles[i] == 0){
                 DisableLoadingClientRPC(playerIds[i]);
             }
@@ -194,7 +194,7 @@ public class GameManager : NetworkBehaviour
     private void MoveFlashFromExit(){
         int flashIndex = roles.IndexOf(1);
         GameObject flash = players[flashIndex];
-        Vector2 flashCell = flash.GetComponent<Player>().cellCoords;
+        Vector2 flashCell = flash.GetComponent<PlayerObject>().cellCoords;
         //if the exit is 3 cells away from flash, move flash
         Debug.Log("Distance from exit: " + (Mathf.Abs(flashCell.x - exitCoordinates.x) + Mathf.Abs(flashCell.y - exitCoordinates.y)));
         Debug.Log("Exit coordinates: " + exitCoordinates);
@@ -207,7 +207,7 @@ public class GameManager : NetworkBehaviour
             Debug.Log("Flash coordinates: " + flashCell);
         }
 
-        flash.GetComponent<Player>().UpdateCoordinates(flashCell);
+        flash.GetComponent<PlayerObject>().UpdateCoordinates(flashCell);
     }
 
     public void MakeExitObject(GameObject exit){

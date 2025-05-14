@@ -23,5 +23,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Matchmaking.unity
     guid: 7087204caeb7178449a94ee975cb9a67
+  - enabled: 1
+    path: Assets/Scenes/Testing/MergeScenes2.unity
+    guid: a7fe7095d40b01643b37537590d06876
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
