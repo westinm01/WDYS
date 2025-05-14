@@ -95,6 +95,7 @@ public class GenerateLandmarks : NetworkBehaviour
         else{
             //center landmark
             int randomCenterLandmark = Random.Range(0, centerLandMarks.Count);
+            Debug.Log("Center landmarks count: " + centerLandMarks.Count + " with a random selection of " + randomCenterLandmark);
             //Debug.Log("SERVER: Spawning corner landmark at " + cellPosition);
             SpawnObjectClientRPC(randomLandmark, randomCenterLandmark, cellPosition, randomRotation);
             randomLandmarkObject = randomCenterLandmark;

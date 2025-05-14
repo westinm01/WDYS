@@ -1,0 +1,11 @@
+Model Information:
+* title:	Props Pack - Human Skeleton
+* source:	https://sketchfab.com/3d-models/props-pack-human-skeleton-4658f7946f7d483eb9d311b0c9ebed96
+* author:	PolyOne Studio (https://sketchfab.com/polyone)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Props Pack - Human Skeleton" (https://sketchfab.com/3d-models/props-pack-human-skeleton-4658f7946f7d483eb9d311b0c9ebed96) by PolyOne Studio (https://sketchfab.com/polyone) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

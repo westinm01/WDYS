@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/emptyMap.unity
     guid: 287a7f955f2e8054f99d112549a82333
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/emptyMapInnerWalls.unity
     guid: b175181e89067664faa0bd9e0b0e36d4
   - enabled: 0
