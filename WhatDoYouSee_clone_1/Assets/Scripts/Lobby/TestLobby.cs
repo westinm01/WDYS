@@ -58,12 +58,14 @@ public class TestLobby : MonoBehaviour
                 IsPrivate = false,
                 Player = GetPlayer()
             };
-            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers);
+            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
             Debug.Log("Lobby created: " + lobby.Name + " " + lobby.MaxPlayers + " (" + lobby.LobbyCode + ")");
 
             TextMeshProUGUI lobbyCodeText = canvas.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
             lobbyCodeText.gameObject.SetActive(true);
             lobbyCodeText.text = "Lobby Code: " + lobby.LobbyCode;
+            hostLobby = lobby;
+            MenuManager.Instance.SetCurrentPanel(2);
         }
         catch (LobbyServiceException e){
             Debug.Log("Error creating lobby: " + e.Message);
@@ -77,14 +79,10 @@ public class TestLobby : MonoBehaviour
             {
                 Player = GetPlayer()
             };
-            hostLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+            hostLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode, options);
             Debug.Log("Joined lobby: " + hostLobby.Name + " "  + hostLobby.MaxPlayers+ " (" + hostLobby.LobbyCode + ")");
-            //print each palyer name in the lobby
-            Debug.Log("Players in lobby: ");
-            foreach (var player in hostLobby.Players)
-            {
-                Debug.Log("Player: " + player.Data["Username"].Value);
-            }
+
+            MenuManager.Instance.SetCurrentPanel(2);
 
         }
         catch (LobbyServiceException e){
@@ -100,5 +98,26 @@ public class TestLobby : MonoBehaviour
                 {"Username", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, PlayerPrefs.GetString("Username", "Guest")) }
             },
         };
+    }
+
+    public List<string> GetLobbyUsernames(){
+        //refresh for new players
+        List<string> usernames = new List<string>();
+        //clear the list
+        usernames.Clear();
+        foreach (var player in hostLobby.Players)
+        {   
+            usernames.Add(player.Data["Username"].Value);
+        }
+        return usernames;
+    }
+
+    public async void RefreshLobby(){
+        hostLobby = await LobbyService.Instance.GetLobbyAsync(hostLobby.Id);
+        Debug.Log("Refreshed lobby: " + hostLobby.Name + " "  + hostLobby.MaxPlayers+ " (" + hostLobby.LobbyCode + ")");
+    }
+
+    public string GetLobbyCode(){
+        return hostLobby.LobbyCode;
     }
 }
