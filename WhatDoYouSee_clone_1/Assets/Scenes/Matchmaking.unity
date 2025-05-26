@@ -817,6 +817,9 @@ MonoBehaviour:
   refreshTime: 1
   playerDataPanelPrefab: {fileID: 4975435913635776619, guid: 11db202bda9decf4298caa242aed0c56, type: 3}
   lobbyCode: {fileID: 918025714}
+  roleSprites:
+  - {fileID: 21300000, guid: 4d37bf393f7fca14aa9b41f92f30bfce, type: 3}
+  - {fileID: 21300000, guid: d7c6f9897069d2b4fa39e842b189af99, type: 3}
 --- !u!1 &153886614
 GameObject:
   m_ObjectHideFlags: 0
@@ -3372,7 +3375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstTime: 1
-  testFirstTime: 1
+  testFirstTime: 0
   username: 
 --- !u!4 &1922758840
 Transform:

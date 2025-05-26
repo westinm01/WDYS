@@ -12,6 +12,7 @@ public class TestLobby : MonoBehaviour
 {
 
     private Lobby hostLobby;
+    private List<Player> lobbyPlayers;
     private float heartbeatTimer = 0f;
     [SerializeField] private Canvas canvas;
 
@@ -56,7 +57,7 @@ public class TestLobby : MonoBehaviour
             CreateLobbyOptions options = new CreateLobbyOptions
             {
                 IsPrivate = false,
-                Player = GetPlayer()
+                Player = GetPlayer("Cart")
             };
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
             Debug.Log("Lobby created: " + lobby.Name + " " + lobby.MaxPlayers + " (" + lobby.LobbyCode + ")");
@@ -90,12 +91,13 @@ public class TestLobby : MonoBehaviour
         }
     }
 
-    private Player GetPlayer(){
+    private Player GetPlayer(string defaultRole = "Flash"){
         return new Player
         {
             Data = new Dictionary<string, PlayerDataObject>()
             {
-                {"Username", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, PlayerPrefs.GetString("Username", "Guest")) }
+                {"Username", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, PlayerPrefs.GetString("Username", "Guest")) },
+                {"Role", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, defaultRole) }
             },
         };
     }
@@ -112,6 +114,18 @@ public class TestLobby : MonoBehaviour
         return usernames;
     }
 
+    public List<Player> GetLobbyPlayers(){
+        //refresh for new players
+        List<Player> players = new List<Player>();
+        //clear the list
+        players.Clear();
+        foreach (var player in hostLobby.Players)
+        {   
+            players.Add(player);
+        }
+        return players;
+    }
+
     public async void RefreshLobby(){
         hostLobby = await LobbyService.Instance.GetLobbyAsync(hostLobby.Id);
         Debug.Log("Refreshed lobby: " + hostLobby.Name + " "  + hostLobby.MaxPlayers+ " (" + hostLobby.LobbyCode + ")");
@@ -120,4 +134,5 @@ public class TestLobby : MonoBehaviour
     public string GetLobbyCode(){
         return hostLobby.LobbyCode;
     }
+
 }
